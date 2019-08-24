@@ -1,4 +1,4 @@
-package de.debuglevel.greeter.person
+package de.debuglevel.phonenumber.person
 
 import io.micronaut.data.annotation.Repository
 import io.micronaut.data.repository.CrudRepository

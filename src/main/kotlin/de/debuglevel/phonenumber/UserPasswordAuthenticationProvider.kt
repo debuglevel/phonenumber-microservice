@@ -1,4 +1,4 @@
-package de.debuglevel.greeter
+package de.debuglevel.phonenumber
 
 import io.micronaut.security.authentication.*
 import io.reactivex.Flowable

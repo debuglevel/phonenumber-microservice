@@ -1,4 +1,4 @@
-package de.debuglevel.greeter.greeting
+package de.debuglevel.phonenumber.greeting
 
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.client.HttpClient

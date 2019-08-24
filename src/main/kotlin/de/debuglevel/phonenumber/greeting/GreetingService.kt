@@ -1,4 +1,4 @@
-package de.debuglevel.greeter.greeting
+package de.debuglevel.phonenumber.greeting
 
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.annotation.Value

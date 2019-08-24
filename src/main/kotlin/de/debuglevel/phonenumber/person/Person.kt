@@ -1,4 +1,4 @@
-package de.debuglevel.greeter.person
+package de.debuglevel.phonenumber.person
 
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue

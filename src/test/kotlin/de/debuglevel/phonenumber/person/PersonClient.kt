@@ -1,4 +1,4 @@
-package de.debuglevel.greeter.person
+package de.debuglevel.phonenumber.person
 
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Header
