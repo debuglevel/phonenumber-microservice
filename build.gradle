@@ -41,17 +41,17 @@ plugins {
     id 'com.github.johnrengelman.shadow'
 
     // add no-argument constructors as they are needed for JPA (see https://kotlinlang.org/docs/reference/compiler-plugins.html#jpa-support)
-    id "org.jetbrains.kotlin.plugin.jpa"
+//    id "org.jetbrains.kotlin.plugin.jpa"
 }
 // Enhance Hibernate entities (see configuration block below)
 // TODO: move to plugins block when https://hibernate.atlassian.net/browse/HHH-13354 is resolved
-apply plugin: 'org.hibernate.orm'
+//apply plugin: 'org.hibernate.orm'
 
-group 'de.debuglevel.greeter'
+group 'de.debuglevel.phonenumber'
 
 // application plugin configuration
-applicationName = "Greeter Microservice"
-mainClassName = "de.debuglevel.greeter.Application"
+applicationName = "Phonenumber Microservice"
+mainClassName = "de.debuglevel.phonenumber.Application"
 
 repositories {
     jcenter()
@@ -111,15 +111,15 @@ dependencies {
     implementation 'io.micronaut:micronaut-management'
     //implementation 'io.micronaut.configuration:micronaut-jmx' // activate JMX for the endpoints
     /// Persistence
-    kapt "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
-    implementation "io.micronaut.data:micronaut-data-hibernate-jpa:$micronautDataVersion"
-    runtimeOnly "io.micronaut.configuration:micronaut-jdbc-tomcat"
-    testRuntimeOnly "com.h2database:h2"
+//    kapt "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
+//    implementation "io.micronaut.data:micronaut-data-hibernate-jpa:$micronautDataVersion"
+//    runtimeOnly "io.micronaut.configuration:micronaut-jdbc-tomcat"
+//    testRuntimeOnly "com.h2database:h2"
     //testRuntimeOnly 'org.hsqldb:hsqldb:2.3.4'
     //testRuntimeOnly 'org.apache.derby:derby:10.13.1.1'
     /// Security
-    kapt "io.micronaut:micronaut-security"
-    implementation "io.micronaut:micronaut-security"
+//    kapt "io.micronaut:micronaut-security"
+//    implementation "io.micronaut:micronaut-security"
 
     // Swagger / OpenAPI
     kapt "io.micronaut.configuration:micronaut-openapi"
