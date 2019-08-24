@@ -3,11 +3,8 @@ package de.debuglevel.phonenumber.person
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
-import io.micronaut.security.annotation.Secured
-import io.micronaut.security.rules.SecurityRule
 import mu.KotlinLogging
 
-@Secured(SecurityRule.IS_ANONYMOUS)
 @Controller("/persons")
 class PersonController(private val personService: PersonService) {
     private val logger = KotlinLogging.logger {}
@@ -39,7 +36,6 @@ class PersonController(private val personService: PersonService) {
      * Get all VIPs
      * @return All VIPs
      */
-    @Secured(SecurityRule.IS_AUTHENTICATED)
     @Get("/VIPs")
     fun getVIPs(): Set<Person> {
         logger.debug("Called getVIPs()")
