@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: greeter
+    name: phonenumber
   server:
     port: 8080 # default: -1 (random port)
     cors:
