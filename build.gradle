@@ -124,6 +124,10 @@ dependencies {
     // Swagger / OpenAPI
     kapt "io.micronaut.configuration:micronaut-openapi"
     implementation "io.swagger.core.v3:swagger-annotations"
+
+    // libphonenumber
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.10.17'
+    implementation 'com.googlecode.libphonenumber:geocoder:2.123'
 }
 
 // Java configuration
@@ -189,14 +193,14 @@ allOpen {
     annotation("io.micronaut.aop.Around")
 }
 
-// enhance Hibernate enities in bytecode
-hibernate {
-    enhance {
-        enableLazyInitialization = true
-        enableDirtyTracking = true
-        enableAssociationManagement = true
-    }
-}
+//// enhance Hibernate enities in bytecode
+//hibernate {
+//    enhance {
+//        enableLazyInitialization = true
+//        enableDirtyTracking = true
+//        enableAssociationManagement = true
+//    }
+//}
 
 // filter out release candidates on dependency update check
 dependencyUpdates.resolutionStrategy {
