@@ -22,6 +22,5 @@
     </root>
 
     <logger name="io.micronaut.http.server" level="DEBUG"/>
-    <logger name="io.micronaut.data.query" level="DEBUG"/>
     <logger name="de.debuglevel" level="DEBUG"/>
 </configuration>
