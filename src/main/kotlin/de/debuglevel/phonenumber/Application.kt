@@ -30,8 +30,6 @@ object Application {
     fun main(args: Array<String>) {
         logger.info { "Starting up..." }
         applicationContext = Micronaut.run(Application.javaClass)
-
-        // TODO: how to do API versioning? (or do it at all?)
     }
 }
 
