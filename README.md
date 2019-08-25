@@ -25,6 +25,8 @@ which produces this JSON response
 }
 ```
 
+There is no GET method because passing phone numbers leads just to too much problems; e.g. the plus in "+49" is " 49" in URL encoding, the slash in "030/1234" is interpreted as path separator, and some frameworks or proxies encode/interpret those characters wrong, twice, nothing at all et cetera. Submitting them as JSON payload reduces this lack of clarity.      
+
 ## Geocode phone number
 To get the location of a phone number, it has to be POSTed as JSON payload in the body to the service
 ```shell script
