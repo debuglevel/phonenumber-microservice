@@ -2,14 +2,13 @@ package de.debuglevel.phonenumber.format
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import de.debuglevel.phonenumber.InvalidPhonenumberException
-import de.debuglevel.phonenumber.PhonenumberUtils
-import io.micronaut.context.annotation.Value
+import de.debuglevel.phonenumber.parser.PhonenumberService
 import mu.KotlinLogging
 import javax.inject.Singleton
 
 @Singleton
 class FormatService(
-    @Value("\${app.default-region:DE}") private val defaultRegion: String = ""
+    private val phonenumberService: PhonenumberService
 ) {
     private val logger = KotlinLogging.logger {}
 
@@ -28,7 +27,7 @@ class FormatService(
     fun format(phonenumber: String): FormattedPhonenumber {
         logger.debug { "Formatting '$phonenumber'..." }
 
-        val validPhonenumber = PhonenumberUtils.parseToValidPhonenumber(phonenumber, defaultRegion)
+        val validPhonenumber = phonenumberService.parseAndValidate(phonenumber)
 
         val formattedNumber = FormattedPhonenumber(
             phonenumberUtil.format(

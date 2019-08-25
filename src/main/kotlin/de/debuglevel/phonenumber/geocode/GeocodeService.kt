@@ -2,15 +2,14 @@ package de.debuglevel.phonenumber.geocode
 
 import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder
 import de.debuglevel.phonenumber.InvalidPhonenumberException
-import de.debuglevel.phonenumber.PhonenumberUtils
-import io.micronaut.context.annotation.Value
+import de.debuglevel.phonenumber.parser.PhonenumberService
 import mu.KotlinLogging
 import java.util.*
 import javax.inject.Singleton
 
 @Singleton
 class GeocodeService(
-    @Value("\${app.default-region:DE}") private val defaultRegion: String = ""
+    private val phonenumberService: PhonenumberService
 ) {
     private val logger = KotlinLogging.logger {}
 
@@ -29,7 +28,7 @@ class GeocodeService(
     fun geocode(phonenumber: String): Geocode {
         logger.debug { "Geocoding '$phonenumber'..." }
 
-        val validPhonenumber = PhonenumberUtils.parseToValidPhonenumber(phonenumber, defaultRegion)
+        val validPhonenumber = phonenumberService.parseAndValidate(phonenumber)
 
         val geocode = Geocode(geocoder.getDescriptionForNumber(validPhonenumber, Locale.GERMAN))
 

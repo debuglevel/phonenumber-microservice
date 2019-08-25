@@ -1,13 +1,22 @@
-package de.debuglevel.phonenumber
+package de.debuglevel.phonenumber.parser
 
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
+import de.debuglevel.phonenumber.InvalidPhonenumberException
+import io.micronaut.context.annotation.Value
+import mu.KotlinLogging
+import javax.inject.Singleton
 
-object PhonenumberUtils {
+@Singleton
+class PhonenumberService(
+    @Value("\${app.default-region:DE}") private val defaultRegion: String = ""
+) {
+    private val logger = KotlinLogging.logger {}
+
     private val phonenumberUtil = PhoneNumberUtil.getInstance()
 
-    fun parseToValidPhonenumber(phonenumber: String, defaultRegion: String): Phonenumber.PhoneNumber {
+    fun parseAndValidate(phonenumber: String): Phonenumber.PhoneNumber {
         return try {
             val parsedPhonenumber = phonenumberUtil.parse(phonenumber, defaultRegion)
 
