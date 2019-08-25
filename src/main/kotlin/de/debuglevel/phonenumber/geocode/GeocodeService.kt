@@ -1,9 +1,8 @@
 package de.debuglevel.phonenumber.geocode
 
-import com.google.i18n.phonenumbers.NumberParseException
-import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder
 import de.debuglevel.phonenumber.InvalidPhonenumberException
+import de.debuglevel.phonenumber.PhonenumberUtils
 import io.micronaut.context.annotation.Value
 import mu.KotlinLogging
 import java.util.*
@@ -16,7 +15,6 @@ class GeocodeService(
     private val logger = KotlinLogging.logger {}
 
     private val geocoder = PhoneNumberOfflineGeocoder.getInstance()
-    private val phonenumberUtil = PhoneNumberUtil.getInstance()
 
     /**
      * Geocodes a phone number.
@@ -31,17 +29,7 @@ class GeocodeService(
     fun geocode(phonenumber: String): Geocode {
         logger.debug { "Geocoding '$phonenumber'..." }
 
-        val validPhonenumber = try {
-            val parsedPhonenumber = phonenumberUtil.parse(phonenumber, defaultRegion)
-
-            if (!phonenumberUtil.isValidNumber(parsedPhonenumber)) {
-                throw InvalidPhonenumberException(phonenumber)
-            }
-
-            parsedPhonenumber
-        } catch (e: NumberParseException) {
-            throw InvalidPhonenumberException(phonenumber, e)
-        }
+        val validPhonenumber = PhonenumberUtils.parseToValidPhonenumber(phonenumber, defaultRegion)
 
         val geocode = Geocode(geocoder.getDescriptionForNumber(validPhonenumber, Locale.GERMAN))
 
