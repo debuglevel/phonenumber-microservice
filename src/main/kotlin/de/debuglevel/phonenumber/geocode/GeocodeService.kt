@@ -2,85 +2,56 @@ package de.debuglevel.phonenumber.geocode
 
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder
+import de.debuglevel.phonenumber.InvalidPhonenumberException
 import io.micronaut.context.annotation.Value
 import mu.KotlinLogging
+import java.util.*
 import javax.inject.Singleton
 
 @Singleton
 class GeocodeService(
-    @Value("\${app.format.default-region:DE}") private val defaultRegion: String = ""
+    @Value("\${app.default-region:DE}") private val defaultRegion: String = ""
 ) {
     private val logger = KotlinLogging.logger {}
 
+    private val geocoder = PhoneNumberOfflineGeocoder.getInstance()
     private val phonenumberUtil = PhoneNumberUtil.getInstance()
 
     /**
-     * Formats a given phone number according to the current (i.e. they might change) formatting rules.
+     * Geocodes a phone number.
      *
-     * A phone number like `0951/12345-678` gets formatted to `+49 (951) 12345678`.
+     * For a phone number like `+49 951 12345678`, `Bamberg` is returned.
      *
-     * @param phonenumber a (valid) phone number, formatted in any way
+     * @param phonenumber a valid phone number
      * @throws InvalidPhonenumberException thrown if the given phone number is invalid
-     * @return the formatted phone number
+     * @return geo-coded location of a phone number
      */
     @Throws(InvalidPhonenumberException::class)
-    fun format(phonenumber: String): FormattedPhonenumber {
-        logger.debug { "Formatting '$phonenumber'..." }
+    fun geocode(phonenumber: String): Geocode {
+        logger.debug { "Geocoding '$phonenumber'..." }
 
-        val parsedPhonenumber = try {
-            phonenumberUtil.parse(phonenumber, defaultRegion)
+        val validPhonenumber = try {
+            val parsedPhonenumber = phonenumberUtil.parse(phonenumber, defaultRegion)
+
+            if (!phonenumberUtil.isValidNumber(parsedPhonenumber)) {
+                throw InvalidPhonenumberException(phonenumber)
+            }
+
+            parsedPhonenumber
         } catch (e: NumberParseException) {
             throw InvalidPhonenumberException(phonenumber, e)
         }
 
-        val formattedNumber = if (phonenumberUtil.isValidNumber(parsedPhonenumber)) {
-            val formattedNumber =
-                FormattedPhonenumber(
-                    phonenumberUtil.format(
-                        parsedPhonenumber,
-                        PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL
-                    )
-                )
-            val bracketNumber = addBrackets(formattedNumber)
-            bracketNumber
-        } else {
-            throw InvalidPhonenumberException(phonenumber)
-        }
+        val geocode = Geocode(geocoder.getDescriptionForNumber(validPhonenumber, Locale.GERMAN))
 
-        logger.debug { "Formatted '$phonenumber': '$formattedNumber'..." }
+        logger.debug { "Geocoded '$phonenumber': '$geocode'" }
 
-        return formattedNumber
-    }
-
-    class InvalidPhonenumberException(number: String, inner: Exception? = null) :
-        Exception("The phone number '$number' is invalid.", inner)
-
-    /**
-     * Adds brackets around the city prefix of a phone number.
-     *
-     * A number like `+49 951 12345678` gets formatted to `+49 (951) 12345678`.
-     *
-     * @param formattedPhonenumber an already formatted phone number
-     * @return the phone number with brackets around the city prefix
-     */
-    private fun addBrackets(formattedPhonenumber: FormattedPhonenumber): FormattedPhonenumber {
-        logger.debug { "Adding brackets to number '$formattedPhonenumber'..." }
-
-        val parts = formattedPhonenumber.formattedPhonenumber.split(' ')
-        val numberWithBrackets =
-            ("${parts[0]} (${parts[1]}) " +
-                    parts.subList(2, parts.size).joinToString(" "))
-                .trim()
-
-        val formattedNumberWithBrackets = FormattedPhonenumber(numberWithBrackets)
-
-        logger.debug { "Added brackets to number '$formattedPhonenumber': '$formattedNumberWithBrackets'" }
-
-        return formattedNumberWithBrackets
+        return geocode
     }
 
     /**
      * A valid and formatted phone number
      */
-    data class FormattedPhonenumber(val formattedPhonenumber: String)
+    data class Geocode(val location: String)
 }
