@@ -2,16 +2,17 @@ package de.debuglevel.phonenumber.format
 
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import io.micronaut.context.annotation.Value
 import mu.KotlinLogging
 import javax.inject.Singleton
 
 @Singleton
-class FormatService {
+class FormatService(
+    @Value("\${app.format.default-region:DE}") private val defaultRegion: String = ""
+) {
     private val logger = KotlinLogging.logger {}
 
     private val phonenumberUtil = PhoneNumberUtil.getInstance()
-
-    private val defaultRegion = "DE"
 
     /**
      * Formats a given phone number according to the current (i.e. they might change) formatting rules.
