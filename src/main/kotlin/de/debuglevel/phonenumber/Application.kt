@@ -5,7 +5,6 @@ import io.micronaut.runtime.Micronaut
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.info.Contact
 import io.swagger.v3.oas.annotations.info.Info
-import io.swagger.v3.oas.annotations.info.License
 import mu.KotlinLogging
 
 /**
@@ -15,10 +14,10 @@ import mu.KotlinLogging
  */
 @OpenAPIDefinition(
     info = Info(
-        title = "Greeter Microservice",
-        version = "0.1.0",
-        description = "Microservice for greeting people",
-        license = License(name = "WTFPL 2.0", url = "http://www.wtfpl.net/"),
+        title = "Phonenumber Microservice",
+        version = "0.0.1",
+        description = "Microservice for formatting phone numbers",
+        //license = License(name = "The Unlicense", url = ""),
         contact = Contact(url = "http://debuglevel.de", name = "Marc Kohaupt", email = "debuglevel at gmail.com")
     )
 )
