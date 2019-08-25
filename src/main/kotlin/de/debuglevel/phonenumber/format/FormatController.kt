@@ -1,5 +1,6 @@
 package de.debuglevel.phonenumber.format
 
+import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Post
 import mu.KotlinLogging
@@ -14,13 +15,24 @@ class FormatController(private val formatService: FormatService) {
      * @return phone number
      */
     @Post("/")
-    fun postOne(formatRequestDTO: FormatRequestDTO): FormatResponseDTO {
+    fun postOne(formatRequestDTO: FormatRequestDTO): HttpResponse<FormatResponseDTO> {
         logger.debug("Called postOne($formatRequestDTO)")
-        val formattedPhonenumber = formatService.format(formatRequestDTO.phonenumber)
 
-        return FormatResponseDTO(
+        val formattedPhonenumber = try {
+            formatService.format(formatRequestDTO.phonenumber)
+        } catch (e: FormatService.InvalidPhonenumberException) {
+            val errorResponse = FormatResponseDTO(
+                formatRequestDTO.phonenumber,
+                error = "the phone number is invalid"
+            )
+            return HttpResponse.badRequest(errorResponse)
+        }
+
+        val formatResponse = FormatResponseDTO(
             formatRequestDTO.phonenumber,
             formattedPhonenumber.formattedPhonenumber
         )
+
+        return HttpResponse.ok(formatResponse)
     }
 }

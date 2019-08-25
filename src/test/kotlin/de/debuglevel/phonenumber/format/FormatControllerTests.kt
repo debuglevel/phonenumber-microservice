@@ -58,6 +58,6 @@ class FormatControllerTests {
         // Assert
         Assertions.assertThat(thrown)
             .isInstanceOf(HttpClientResponseException::class.java)
-            .hasMessageContaining("Internal Server Error") // TODO: that should not be an internal server error but an user error
+            .hasMessageContaining("Bad Request")
     }
 }
