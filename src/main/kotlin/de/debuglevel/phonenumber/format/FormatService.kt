@@ -28,29 +28,29 @@ class FormatService(
     fun format(phonenumber: String): FormattedPhonenumber {
         logger.debug { "Formatting '$phonenumber'..." }
 
-        val parsedPhonenumber = try {
-            phonenumberUtil.parse(phonenumber, defaultRegion)
+        val validPhonenumber = try {
+            val parsedPhonenumber = phonenumberUtil.parse(phonenumber, defaultRegion)
+
+            if (!phonenumberUtil.isValidNumber(parsedPhonenumber)) {
+                throw InvalidPhonenumberException(phonenumber)
+            }
+
+            parsedPhonenumber
         } catch (e: NumberParseException) {
             throw InvalidPhonenumberException(phonenumber, e)
         }
 
-        val formattedNumber = if (phonenumberUtil.isValidNumber(parsedPhonenumber)) {
-            val formattedNumber =
-                FormattedPhonenumber(
-                    phonenumberUtil.format(
-                        parsedPhonenumber,
-                        PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL
-                    )
-                )
-            val bracketNumber = addBrackets(formattedNumber)
-            bracketNumber
-        } else {
-            throw InvalidPhonenumberException(phonenumber)
-        }
+        val formattedNumber = FormattedPhonenumber(
+            phonenumberUtil.format(
+                validPhonenumber,
+                PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL
+            )
+        )
+        val bracketNumber = addBrackets(formattedNumber)
 
-        logger.debug { "Formatted '$phonenumber': '$formattedNumber'..." }
+        logger.debug { "Formatted '$phonenumber': '$bracketNumber'..." }
 
-        return formattedNumber
+        return bracketNumber
     }
 
     /**
