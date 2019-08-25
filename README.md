@@ -15,7 +15,7 @@ There is an OpenAPI (former: Swagger) specification created, which is available 
 ## Format phone number
 To format a phone number, it has to be POSTed as JSON payload in the body to the service
 ```shell script
-$ curl -X POST -d '{"phonenumber":"0921123456789"}' -H "Content-Type: application/json -H "Accept: application/json" http://localhost:8080/format/
+$ curl -X POST -d '{"phonenumber":"0921123456789"}' -H "Content-Type: application/json" -H "Accept: application/json" http://localhost:8080/format/
 ```
 which produces this JSON response
 ```json
