@@ -1,5 +1,6 @@
 package de.debuglevel.phonenumber.format
 
+import de.debuglevel.phonenumber.InvalidPhonenumberException
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Post
@@ -20,7 +21,7 @@ class FormatController(private val formatService: FormatService) {
 
         val formattedPhonenumber = try {
             formatService.format(formatRequestDTO.phonenumber)
-        } catch (e: FormatService.InvalidPhonenumberException) {
+        } catch (e: InvalidPhonenumberException) {
             val errorResponse = FormatResponseDTO(
                 formatRequestDTO.phonenumber,
                 error = "the phone number is invalid"

@@ -2,6 +2,7 @@ package de.debuglevel.phonenumber.format
 
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import de.debuglevel.phonenumber.InvalidPhonenumberException
 import io.micronaut.context.annotation.Value
 import mu.KotlinLogging
 import javax.inject.Singleton
@@ -51,9 +52,6 @@ class FormatService(
 
         return formattedNumber
     }
-
-    class InvalidPhonenumberException(number: String, inner: Exception? = null) :
-        Exception("The phone number '$number' is invalid.", inner)
 
     /**
      * Adds brackets around the city prefix of a phone number.

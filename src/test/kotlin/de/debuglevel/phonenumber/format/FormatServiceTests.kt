@@ -1,6 +1,7 @@
 package de.debuglevel.phonenumber.format
 
 
+import de.debuglevel.phonenumber.InvalidPhonenumberException
 import io.micronaut.test.annotation.MicronautTest
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
@@ -39,7 +40,7 @@ class FormatServiceTests {
         // Act
 
         // Assert
-        assertThatExceptionOfType(FormatService.InvalidPhonenumberException::class.java).isThrownBy {
+        assertThatExceptionOfType(InvalidPhonenumberException::class.java).isThrownBy {
             formatService.format(testData.value)
         }
     }
