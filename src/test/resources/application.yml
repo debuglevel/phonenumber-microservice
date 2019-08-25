@@ -6,5 +6,4 @@ micronaut:
 #    enabled: true
 
 app:
-  format:
-    default-region: "DE"
+  default-region: "DE"

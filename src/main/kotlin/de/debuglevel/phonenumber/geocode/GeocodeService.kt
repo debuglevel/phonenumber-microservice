@@ -1,4 +1,4 @@
-package de.debuglevel.phonenumber.format
+package de.debuglevel.phonenumber.geocode
 
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
@@ -7,8 +7,8 @@ import mu.KotlinLogging
 import javax.inject.Singleton
 
 @Singleton
-class FormatService(
-    @Value("\${app.default-region:DE}") private val defaultRegion: String = ""
+class GeocodeService(
+    @Value("\${app.format.default-region:DE}") private val defaultRegion: String = ""
 ) {
     private val logger = KotlinLogging.logger {}
 
