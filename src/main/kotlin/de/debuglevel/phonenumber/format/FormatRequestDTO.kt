@@ -1,3 +1,3 @@
 package de.debuglevel.phonenumber.format
 
-class FormatRequestDTO(val phonenumber: String)
+data class FormatRequestDTO(val phonenumber: String)
