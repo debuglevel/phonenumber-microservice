@@ -120,6 +120,9 @@ dependencies {
     /// Security
 //    kapt "io.micronaut:micronaut-security"
 //    implementation "io.micronaut:micronaut-security"
+    /// GraalVM
+    compileOnly "com.oracle.substratevm:svm"
+    annotationProcessor "io.micronaut:micronaut-graal"
 
     // Swagger / OpenAPI
     kapt "io.micronaut.configuration:micronaut-openapi"
