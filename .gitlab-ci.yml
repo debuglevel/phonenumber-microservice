@@ -54,7 +54,7 @@ build-docker-master:
     - >
       for dockerfile in $(find . -name '*Dockerfile' -printf '%P\n'); do
         echo "== Processing Dockerfile $dockerfile ..."
-        dockerfilevariant=$(echo $dockerfile | awk '$0~/\.Dockerfile$/ { sub(/\.Dockerfile/, ""); print "-"$0 }')
+        dockerfilevariant=$(echo $dockerfile | awk '$0~/\.Dockerfile$/ { sub(/\.Dockerfile/, ""); sub (/^\.\//, ""); print "-"$0 }')
         echo "== dockerfilevariant=$dockerfilevariant"
         docker build --pull -t "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant" -f $dockerfile . && echo "== Built docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
         docker push "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant" && echo "== Pushed docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
