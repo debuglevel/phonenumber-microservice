@@ -19,16 +19,16 @@ WORKDIR /src
 RUN gu install native-image
 COPY --from=builder /src/build/libs/*-all.jar microservice.jar
 RUN ls -al
-RUN native-image --no-server -cp microservice.jar
+RUN native-image --no-server -cp microservice.jar -H:Name=microservice
 RUN ls -al
 
 ## Final image
 FROM frolvlad/alpine-glibc
 WORKDIR /app
-COPY --from=graalvm /src/phonenumber .
+COPY --from=graalvm /src/microservice .
 
 # set the default port to 80
 ENV MICRONAUT_SERVER_PORT 80
 EXPOSE 80
 
-CMD ["./phonenumber"]
+CMD ["./microservice"]
