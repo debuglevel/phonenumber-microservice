@@ -45,7 +45,7 @@ build:
 
 ## Build & Push Docker Images ##
 # Build docker image and push it to the registry as "debuglevel/greeting-microservice:branch-97dd42c"
-build-docker-master:
+build-docker:
   stage: build
   image: docker:latest
   script:
@@ -56,7 +56,9 @@ build-docker-master:
         echo "== Processing Dockerfile $dockerfile ..."
         dockerfilevariant=$(echo $dockerfile | awk '$0~/\.Dockerfile$/ { sub(/\.Dockerfile/, ""); sub (/^\.\//, ""); print "-"$0 }')
         echo "== dockerfilevariant=$dockerfilevariant"
+        echo "== Building docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
         docker build --pull -t "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant" -f $dockerfile . && echo "== Built docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
+        echo "== Pushing docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
         docker push "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant" && echo "== Pushed docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
       done
 
@@ -65,10 +67,23 @@ release-docker:
   stage: release
   image: docker:latest
   script:
+    - echo "JOB_TIMESTAMP=$JOB_TIMESTAMP | COMMIT_HASH_SHORT=$COMMIT_HASH_SHORT | COMMIT_BRANCH_OR_TAG=$COMMIT_BRANCH_OR_TAG | REGISTRY_HOST=$REGISTRY_HOST | REGISTRY_USER=$REGISTRY_USER | REGISTRY_IMAGE=$REGISTRY_IMAGE | CERTIFICATE_URL=$CERTIFICATE_URL"
     - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD" $REGISTRY_HOST
     - docker pull "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT"
     - docker tag "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT" "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG"
     - docker push "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG" && echo "== Pushed docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG"
+    - >
+      for dockerfile in $(find . -name '*Dockerfile'); do
+        echo "== Processing Dockerfile $dockerfile ..."
+        dockerfilevariant=$(echo $dockerfile | awk '$0~/\.Dockerfile$/ { sub(/\.Dockerfile/, ""); sub (/^\.\//, ""); print "-"$0 }')
+        echo "== dockerfilevariant=$dockerfilevariant"
+
+        echo "== Pulling docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
+        docker pull "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
+        docker tag "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant" "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG$dockerfilevariant"
+        echo "== Pushing docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
+        docker push "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG$dockerfilevariant" && echo "== Pushed docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG$dockerfilevariant"
+      done
 
 # Release master docker image by pushing it to the registry as "debuglevel/greeting-microservice" (which automatically also becomes "debuglevel/greeting-microservice:latest")
 release-docker-master:
