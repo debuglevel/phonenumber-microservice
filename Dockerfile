@@ -25,10 +25,10 @@ RUN ls -al
 ## Final image
 FROM frolvlad/alpine-glibc
 WORKDIR /app
-COPY --from=graalvm /src/microservice .
+COPY --from=graalvm /src/phonenumber .
 
 # set the default port to 80
 ENV MICRONAUT_SERVER_PORT 80
 EXPOSE 80
 
-CMD ["./micronaut-graal-app"]
+CMD ["./phonenumber"]
