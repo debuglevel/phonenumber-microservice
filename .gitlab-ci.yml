@@ -51,12 +51,13 @@ build-docker-master:
   script:
     - echo "JOB_TIMESTAMP=$JOB_TIMESTAMP | COMMIT_HASH_SHORT=$COMMIT_HASH_SHORT | COMMIT_BRANCH_OR_TAG=$COMMIT_BRANCH_OR_TAG | REGISTRY_HOST=$REGISTRY_HOST | REGISTRY_USER=$REGISTRY_USER | REGISTRY_IMAGE=$REGISTRY_IMAGE | CERTIFICATE_URL=$CERTIFICATE_URL"
     - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD" $REGISTRY_HOST
-    - for dockerfile in $(find . -name '*Dockerfile' -printf '%P\n'); do
-      echo "== Processing Dockerfile $dockerfile ..."
-      dockerfilevariant=$(echo $dockerfile | awk '$0~/\.Dockerfile$/ { sub(/\.Dockerfile/, ""); print "-"$0 }')
-      echo "== dockerfilevariant=$dockerfilevariant"
-      docker build --pull -t "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant" -f $dockerfile . && echo "== Built docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
-      docker push "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant" && echo "== Pushed docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
+    - >
+      for dockerfile in $(find . -name '*Dockerfile' -printf '%P\n'); do
+        echo "== Processing Dockerfile $dockerfile ..."
+        dockerfilevariant=$(echo $dockerfile | awk '$0~/\.Dockerfile$/ { sub(/\.Dockerfile/, ""); print "-"$0 }')
+        echo "== dockerfilevariant=$dockerfilevariant"
+        docker build --pull -t "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant" -f $dockerfile . && echo "== Built docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
+        docker push "$REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant" && echo "== Pushed docker image $REGISTRY_IMAGE:$COMMIT_BRANCH_OR_TAG-$COMMIT_HASH_SHORT$dockerfilevariant"
       done
 
 # Release branch docker image by pushing it to the registry as "debuglevel/greeting-microservice:branch"
