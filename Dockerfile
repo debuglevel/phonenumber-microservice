@@ -13,21 +13,22 @@ RUN ./gradlew --version
 COPY . /src/
 RUN ./gradlew build
 
+## GraalVM
+FROM oracle/graalvm-ce:19.2.0 as graalvm
+WORKDIR /src
+RUN gu install native-image
+COPY --from=builder /src/build/libs/*-all.jar microservice.jar
+RUN ls -al
+RUN native-image --no-server -cp microservice.jar
+RUN ls -al
+
 ## Final image
-#FROM openjdk:11-jre # use OpenJDK 11 if desired
-FROM openjdk:8-jre-alpine
+FROM frolvlad/alpine-glibc
 WORKDIR /app
-COPY --from=builder /src/build/libs/*-all.jar /app/microservice.jar
+COPY --from=graalvm /src/microservice .
 
 # set the default port to 80
 ENV MICRONAUT_SERVER_PORT 80
 EXPOSE 80
 
-# -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap let the JVM respect CPU and RAM limits inside a Docker container
-CMD ["java", \
-     "-XX:+UnlockExperimentalVMOptions", \
-     "-XX:+UseCGroupMemoryLimitForHeap", \
-     "-noverify", \
-     "-XX:TieredStopAtLevel=1", \
-     "-Dcom.sun.management.jmxremote", \
-     "-jar", "/app/microservice.jar"]
+CMD ["./micronaut-graal-app"]
