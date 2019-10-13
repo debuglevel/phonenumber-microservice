@@ -42,3 +42,8 @@ which produces this JSON response
  
 # Configuration
 There is a `application.yml` included in the jar file. Its content can be modified and saved as a separate `application.yml` on the level of the jar file. Configuration can also be applied via the other supported ways of Micronaut (see <https://docs.micronaut.io/latest/guide/index.html#config>). For Docker, the configuration via environment variables is the most interesting one (see `docker-compose.yml`).
+
+# Docker
+There are two Docker variants available, both available on the GitLab registry of this project:
+* The regular Java variant, running a Jar und a JVM. This is the recommended one for most users.
+* A [GraalVM](https://graalvm.org) variant, running a ahead-of-time compiled binary. The image is smaller, has a smaller memory footprint, but also may be slower (due to missing just-in-time improvements done by the JVM). It is also rather experimental and less tested. 
