@@ -29,17 +29,19 @@ class FormatService(
 
         val validPhonenumber = phonenumberService.parseAndValidate(phonenumber)
 
-        val formattedNumber = FormattedPhonenumber(
+        logger.debug { "Formatting '$phonenumber' with PhoneNumberUtil..." }
+        val formattedPhonenumber = FormattedPhonenumber(
             phonenumberUtil.format(
                 validPhonenumber,
                 PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL
             )
         )
-        val bracketNumber = addBrackets(formattedNumber)
+        logger.debug { "Formatted '$phonenumber' with PhoneNumberUtil: $formattedPhonenumber" }
 
-        logger.debug { "Formatted '$phonenumber': '$bracketNumber'..." }
+        val bracketedPhoneNumber = addBrackets(formattedPhonenumber)
 
-        return bracketNumber
+        logger.debug { "Formatted '$phonenumber': '$bracketedPhoneNumber'..." }
+        return bracketedPhoneNumber
     }
 
     /**
@@ -51,7 +53,7 @@ class FormatService(
      * @return the phone number with brackets around the city prefix
      */
     private fun addBrackets(formattedPhonenumber: FormattedPhonenumber): FormattedPhonenumber {
-        logger.debug { "Adding brackets to number '$formattedPhonenumber'..." }
+        logger.debug { "Adding brackets to phone number '$formattedPhonenumber'..." }
 
         val parts = formattedPhonenumber.formattedPhonenumber.split(' ')
         val numberWithBrackets =
@@ -61,8 +63,7 @@ class FormatService(
 
         val formattedNumberWithBrackets = FormattedPhonenumber(numberWithBrackets)
 
-        logger.debug { "Added brackets to number '$formattedPhonenumber': '$formattedNumberWithBrackets'" }
-
+        logger.debug { "Added brackets to phone number '$formattedPhonenumber': '$formattedNumberWithBrackets'" }
         return formattedNumberWithBrackets
     }
 
