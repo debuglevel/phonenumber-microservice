@@ -39,6 +39,24 @@ which produces this JSON response
   "location" : "Karlsruhe"
 }
 ```
- 
+
+## Get combined information for phone number
+Get all above information in a single request:
+* Format a phone number
+* Geocode a phone number
+
+To get the information of a phone number, it has to be POSTed as JSON payload in the body to the service
+```shell script
+$ curl -X POST -d '{"phonenumber":"0721123456789"}' -H "Content-Type: application/json" -H "Accept: application/json" http://localhost:8080/information/
+```
+which produces this JSON response
+```json
+{
+  "phonenumber" : "0721123456789",
+  "formattedPhonenumber" : "+49 (921) 123456789",
+  "location" : "Karlsruhe"
+}
+```
+
 # Configuration
 There is a `application.yml` included in the jar file. Its content can be modified and saved as a separate `application.yml` on the level of the jar file. Configuration can also be applied via the other supported ways of Micronaut (see <https://docs.micronaut.io/latest/guide/index.html#config>). For Docker, the configuration via environment variables is the most interesting one (see `docker-compose.yml`).
