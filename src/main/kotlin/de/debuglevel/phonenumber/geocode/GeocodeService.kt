@@ -30,15 +30,15 @@ class GeocodeService(
 
         val validPhonenumber = phonenumberService.parseAndValidate(phonenumber)
 
-        val geocode = Geocode(geocoder.getDescriptionForNumber(validPhonenumber, Locale.GERMAN))
+        val geocode = Geocode(
+            location = geocoder.getDescriptionForNumber(validPhonenumber, Locale.GERMAN),
+            regionCode = phonenumberService.getRegionCode(validPhonenumber)
+        )
 
         logger.debug { "Geocoded '$phonenumber': '$geocode'" }
 
         return geocode
     }
 
-    /**
-     * A valid and formatted phone number
-     */
-    data class Geocode(val location: String)
+    data class Geocode(val location: String, val regionCode: String)
 }

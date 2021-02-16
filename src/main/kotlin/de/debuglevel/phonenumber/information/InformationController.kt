@@ -42,7 +42,8 @@ class InformationController(
         val formatResponse = InformationResponse(
             phonenumber = informationRequest.phonenumber,
             formattedPhonenumber = formattedPhonenumber.formattedPhonenumber,
-            location = geocode.location
+            location = geocode.location,
+            regionCode = geocode.regionCode,
         )
 
         return HttpResponse.ok(formatResponse)

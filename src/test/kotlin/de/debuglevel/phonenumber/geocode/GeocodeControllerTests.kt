@@ -39,7 +39,8 @@ class GeocodeControllerTests {
             .retrieve(HttpRequest.POST(uri, geocodeRequest), GeocodeResponse::class.java)
 
         // Assert
-        Assertions.assertThat(geocodeResponse.location).isEqualTo(testData.expected)
+        Assertions.assertThat(geocodeResponse.location).isEqualTo(testData.expectedLocation)
+        Assertions.assertThat(geocodeResponse.regionCode).isEqualTo(testData.expectedRegionCode)
     }
 
     @ParameterizedTest

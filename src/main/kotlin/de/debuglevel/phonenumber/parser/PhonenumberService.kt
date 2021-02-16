@@ -29,4 +29,8 @@ class PhonenumberService(
             throw InvalidPhonenumberException(phonenumber, e)
         }
     }
+
+    fun getRegionCode(phonenumber: Phonenumber.PhoneNumber): String {
+        return phonenumberUtil.getRegionCodeForNumber(phonenumber)
+    }
 }

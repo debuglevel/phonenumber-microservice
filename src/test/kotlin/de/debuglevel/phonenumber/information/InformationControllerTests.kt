@@ -40,6 +40,7 @@ class InformationControllerTests {
 
         // Assert
         Assertions.assertThat(informationResponse.location).isEqualTo(testData.expectedLocation)
+        Assertions.assertThat(informationResponse.regionCode).isEqualTo(testData.expectedRegionCode)
         Assertions.assertThat(informationResponse.formattedPhonenumber).isEqualTo(testData.expectedFormat)
     }
 

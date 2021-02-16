@@ -29,7 +29,8 @@ class GeocodeServiceTests {
         val geocode = geocodeService.geocode(testData.value)
 
         // Assert
-        assertThat(geocode.location).isEqualTo(testData.expected)
+        assertThat(geocode.location).isEqualTo(testData.expectedLocation)
+        assertThat(geocode.regionCode).isEqualTo(testData.expectedRegionCode)
     }
 
     @ParameterizedTest

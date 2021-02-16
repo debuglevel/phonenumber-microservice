@@ -31,7 +31,8 @@ class GeocodeController(private val geocodeService: GeocodeService) {
 
         val formatResponse = GeocodeResponse(
             geocodeRequest.phonenumber,
-            geocode.location
+            geocode.location,
+            geocode.regionCode,
         )
 
         return HttpResponse.ok(formatResponse)

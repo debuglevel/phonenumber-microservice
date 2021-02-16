@@ -7,29 +7,44 @@ object TestDataProvider {
         PhonenumberTestData(
             value = "(09 51) 1234567",
             expectedLocation = "Bamberg",
-            expectedFormat = "+49 (951) 1234567"
+            expectedFormat = "+49 (951) 1234567",
+            expectedRegionCode = "DE",
         ),
         PhonenumberTestData(
             value = "0721 1234567",
             expectedLocation = "Karlsruhe",
-            expectedFormat = "+49 (721) 1234567"
+            expectedFormat = "+49 (721) 1234567",
+            expectedRegionCode = "DE",
         ),
         PhonenumberTestData(
             value = "+4974251234567",
             expectedLocation = "Trossingen",
-            expectedFormat = "+49 (7425) 1234567"
+            expectedFormat = "+49 (7425) 1234567",
+            expectedRegionCode = "DE",
         ),
-        PhonenumberTestData(value = "+49301234567", expectedLocation = "Berlin", expectedFormat = "+49 (30) 1234567"),
-        PhonenumberTestData(value = "+43 1 534899", expectedLocation = "Wien", expectedFormat = "+43 (1) 534899"),
+        PhonenumberTestData(
+            value = "+49301234567",
+            expectedLocation = "Berlin",
+            expectedFormat = "+49 (30) 1234567",
+            expectedRegionCode = "DE"
+        ),
+        PhonenumberTestData(
+            value = "+43 1 534899",
+            expectedLocation = "Wien",
+            expectedFormat = "+43 (1) 534899",
+            expectedRegionCode = "AT"
+        ),
         PhonenumberTestData(
             value = "+41 441 234567",
             expectedLocation = "Zürich",
-            expectedFormat = "+41 (44) 123 45 67"
+            expectedFormat = "+41 (44) 123 45 67",
+            expectedRegionCode = "CH",
         ),
         PhonenumberTestData(
             value = "+49 176 1234567",
             expectedLocation = "Deutschland",
-            expectedFormat = "+49 (176) 1234567"
+            expectedFormat = "+49 (176) 1234567",
+            expectedRegionCode = "DE",
         )
     )
 
@@ -55,6 +70,7 @@ object TestDataProvider {
     data class PhonenumberTestData(
         val value: String,
         val expectedLocation: String? = null,
+        val expectedRegionCode: String? = null,
         val expectedFormat: String? = null,
     )
 }

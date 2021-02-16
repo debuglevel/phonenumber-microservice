@@ -4,13 +4,13 @@ import java.util.stream.Stream
 
 object TestDataProvider {
     fun validPhonenumberProvider() = Stream.of(
-        PhonenumberTestData(value = "(09 51) 1234567", expected = "Bamberg"),
-        PhonenumberTestData(value = "0721 1234567", expected = "Karlsruhe"),
-        PhonenumberTestData(value = "+4974251234567", expected = "Trossingen"),
-        PhonenumberTestData(value = "+49301234567", expected = "Berlin"),
-        PhonenumberTestData(value = "+43 1 534899", expected = "Wien"),
-        PhonenumberTestData(value = "+41 441 234567", expected = "Zürich"),
-        PhonenumberTestData(value = "+49 176 1234567", expected = "Deutschland")
+        PhonenumberTestData(value = "(09 51) 1234567", expectedLocation = "Bamberg", expectedRegionCode = "DE"),
+        PhonenumberTestData(value = "0721 1234567", expectedLocation = "Karlsruhe", expectedRegionCode = "DE"),
+        PhonenumberTestData(value = "+4974251234567", expectedLocation = "Trossingen", expectedRegionCode = "DE"),
+        PhonenumberTestData(value = "+49301234567", expectedLocation = "Berlin", expectedRegionCode = "DE"),
+        PhonenumberTestData(value = "+43 1 534899", expectedLocation = "Wien", expectedRegionCode = "AT"),
+        PhonenumberTestData(value = "+41 441 234567", expectedLocation = "Zürich", expectedRegionCode = "CH"),
+        PhonenumberTestData(value = "+49 176 1234567", expectedLocation = "Deutschland", expectedRegionCode = "DE")
     )
 
     fun invalidPhonenumberProvider() = Stream.of(
@@ -34,6 +34,7 @@ object TestDataProvider {
 
     data class PhonenumberTestData(
         val value: String,
-        val expected: String? = null
+        val expectedLocation: String? = null,
+        val expectedRegionCode: String? = null
     )
 }
