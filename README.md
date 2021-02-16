@@ -15,13 +15,13 @@ There is an OpenAPI (former: Swagger) specification created, which is available 
 ## Format phone number
 To format a phone number, it has to be POSTed as JSON payload in the body to the service
 ```shell script
-$ curl -X POST -d '{"phonenumber":"0921123456789"}' -H "Content-Type: application/json" -H "Accept: application/json" http://localhost:8080/format/
+$ curl -X POST -d '{"phonenumber":"0721123456789"}' -H "Content-Type: application/json" -H "Accept: application/json" http://localhost:8080/format/
 ```
 which produces this JSON response
 ```json
 {
-  "phonenumber" : "0921123456789",
-  "formattedPhonenumber" : "+49 (921) 123456789"
+  "phonenumber" : "0721123456789",
+  "formattedPhonenumber" : "+49 (721) 123456789"
 }
 ```
 
@@ -36,7 +36,9 @@ which produces this JSON response
 ```json
 {
   "phonenumber" : "0721123456789",
-  "location" : "Karlsruhe"
+  "location" : "Karlsruhe",
+  "regionCode": "DE",
+  "type": "FIXED_LINE"
 }
 ```
 
@@ -52,9 +54,11 @@ $ curl -X POST -d '{"phonenumber":"0721123456789"}' -H "Content-Type: applicatio
 which produces this JSON response
 ```json
 {
-  "phonenumber" : "0721123456789",
-  "formattedPhonenumber" : "+49 (921) 123456789",
-  "location" : "Karlsruhe"
+    "phonenumber": "0721123456789",
+    "formattedPhonenumber": "+49 (721) 123456789",
+    "location": "Karlsruhe",
+    "regionCode": "DE",
+    "type": "FIXED_LINE"
 }
 ```
 
