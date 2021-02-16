@@ -31,12 +31,12 @@ class GeocodeControllerTests {
     @MethodSource("validPhonenumberProvider")
     fun `geocode valid phone numbers`(testData: TestDataProvider.PhonenumberTestData) {
         // Arrange
-        val geocodeRequest = GeocodeRequestDTO(testData.value)
+        val geocodeRequest = GeocodeRequest(testData.value)
 
         // Act
         val uri = UriBuilder.of("/").build()
         val geocodeResponse = httpClient.toBlocking()
-            .retrieve(HttpRequest.POST(uri, geocodeRequest), GeocodeResponseDTO::class.java)
+            .retrieve(HttpRequest.POST(uri, geocodeRequest), GeocodeResponse::class.java)
 
         // Assert
         Assertions.assertThat(geocodeResponse.location).isEqualTo(testData.expected)
@@ -46,13 +46,13 @@ class GeocodeControllerTests {
     @MethodSource("invalidPhonenumberProvider")
     fun `geocode invalid phone numbers`(testData: TestDataProvider.PhonenumberTestData) {
         // Arrange
-        val formatRequest = GeocodeRequestDTO(testData.value)
+        val formatRequest = GeocodeRequest(testData.value)
 
         // Act
         val uri = UriBuilder.of("/").build()
         val thrown = catchThrowable {
             httpClient.toBlocking()
-                .retrieve(HttpRequest.POST(uri, formatRequest), GeocodeResponseDTO::class.java)
+                .retrieve(HttpRequest.POST(uri, formatRequest), GeocodeResponse::class.java)
         }
 
         // Assert

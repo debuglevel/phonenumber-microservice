@@ -1,6 +1,6 @@
 package de.debuglevel.phonenumber.format
 
-data class FormatResponseDTO(
+data class FormatResponse(
     val phonenumber: String,
     val formattedPhonenumber: String? = null,
     val error: String? = null

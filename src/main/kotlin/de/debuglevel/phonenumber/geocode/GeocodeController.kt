@@ -12,25 +12,25 @@ class GeocodeController(private val geocodeService: GeocodeService) {
 
     /**
      * Geocode a phone number
-     * @param geocodeRequestDTO original phone number
+     * @param geocodeRequest original phone number
      * @return Geocode
      */
     @Post("/")
-    fun postOne(geocodeRequestDTO: GeocodeRequestDTO): HttpResponse<GeocodeResponseDTO> {
-        logger.debug("Called postOne($geocodeRequestDTO)")
+    fun postOne(geocodeRequest: GeocodeRequest): HttpResponse<GeocodeResponse> {
+        logger.debug("Called postOne($geocodeRequest)")
 
         val geocode = try {
-            geocodeService.geocode(geocodeRequestDTO.phonenumber)
+            geocodeService.geocode(geocodeRequest.phonenumber)
         } catch (e: InvalidPhonenumberException) {
-            val errorResponse = GeocodeResponseDTO(
-                geocodeRequestDTO.phonenumber,
+            val errorResponse = GeocodeResponse(
+                geocodeRequest.phonenumber,
                 error = "the phone number is invalid"
             )
             return HttpResponse.badRequest(errorResponse)
         }
 
-        val formatResponse = GeocodeResponseDTO(
-            geocodeRequestDTO.phonenumber,
+        val formatResponse = GeocodeResponse(
+            geocodeRequest.phonenumber,
             geocode.location
         )
 

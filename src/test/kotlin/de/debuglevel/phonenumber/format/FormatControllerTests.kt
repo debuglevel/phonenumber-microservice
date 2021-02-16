@@ -31,12 +31,12 @@ class FormatControllerTests {
     @MethodSource("validPhonenumberProvider")
     fun `format valid phone numbers`(testData: TestDataProvider.PhonenumberTestData) {
         // Arrange
-        val formatRequest = FormatRequestDTO(testData.value)
+        val formatRequest = FormatRequest(testData.value)
 
         // Act
         val uri = UriBuilder.of("/").build()
         val formatResponse = httpClient.toBlocking()
-            .retrieve(HttpRequest.POST(uri, formatRequest), FormatResponseDTO::class.java)
+            .retrieve(HttpRequest.POST(uri, formatRequest), FormatResponse::class.java)
 
         // Assert
         Assertions.assertThat(formatResponse.formattedPhonenumber).isEqualTo(testData.expected)
@@ -46,13 +46,13 @@ class FormatControllerTests {
     @MethodSource("invalidPhonenumberProvider")
     fun `format invalid phone numbers`(testData: TestDataProvider.PhonenumberTestData) {
         // Arrange
-        val formatRequest = FormatRequestDTO(testData.value)
+        val formatRequest = FormatRequest(testData.value)
 
         // Act
         val uri = UriBuilder.of("/").build()
         val thrown = catchThrowable {
             httpClient.toBlocking()
-                .retrieve(HttpRequest.POST(uri, formatRequest), FormatResponseDTO::class.java)
+                .retrieve(HttpRequest.POST(uri, formatRequest), FormatResponse::class.java)
         }
 
         // Assert

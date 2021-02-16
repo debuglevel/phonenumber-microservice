@@ -12,25 +12,25 @@ class FormatController(private val formatService: FormatService) {
 
     /**
      * Format a phone number
-     * @param formatRequestDTO original phone number
+     * @param formatRequest original phone number
      * @return phone number
      */
     @Post("/")
-    fun postOne(formatRequestDTO: FormatRequestDTO): HttpResponse<FormatResponseDTO> {
-        logger.debug("Called postOne($formatRequestDTO)")
+    fun postOne(formatRequest: FormatRequest): HttpResponse<FormatResponse> {
+        logger.debug("Called postOne($formatRequest)")
 
         val formattedPhonenumber = try {
-            formatService.format(formatRequestDTO.phonenumber)
+            formatService.format(formatRequest.phonenumber)
         } catch (e: InvalidPhonenumberException) {
-            val errorResponse = FormatResponseDTO(
-                formatRequestDTO.phonenumber,
+            val errorResponse = FormatResponse(
+                formatRequest.phonenumber,
                 error = "the phone number is invalid"
             )
             return HttpResponse.badRequest(errorResponse)
         }
 
-        val formatResponse = FormatResponseDTO(
-            formatRequestDTO.phonenumber,
+        val formatResponse = FormatResponse(
+            formatRequest.phonenumber,
             formattedPhonenumber.formattedPhonenumber
         )
 
