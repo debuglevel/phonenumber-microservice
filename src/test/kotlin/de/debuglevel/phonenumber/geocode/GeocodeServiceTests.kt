@@ -31,6 +31,7 @@ class GeocodeServiceTests {
         // Assert
         assertThat(geocode.location).isEqualTo(testData.expectedLocation)
         assertThat(geocode.regionCode).isEqualTo(testData.expectedRegionCode)
+        assertThat(geocode.type.name).isEqualTo(testData.expectedType)
     }
 
     @ParameterizedTest

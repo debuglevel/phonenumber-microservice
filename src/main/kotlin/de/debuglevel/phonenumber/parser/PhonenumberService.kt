@@ -33,4 +33,8 @@ class PhonenumberService(
     fun getRegionCode(phonenumber: Phonenumber.PhoneNumber): String {
         return phonenumberUtil.getRegionCodeForNumber(phonenumber)
     }
+
+    fun getNumberType(phonenumber: Phonenumber.PhoneNumber): PhoneNumberUtil.PhoneNumberType {
+        return phonenumberUtil.getNumberType(phonenumber)
+    }
 }

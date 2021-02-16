@@ -1,5 +1,6 @@
 package de.debuglevel.phonenumber.geocode
 
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder
 import de.debuglevel.phonenumber.InvalidPhonenumberException
 import de.debuglevel.phonenumber.parser.PhonenumberService
@@ -32,7 +33,8 @@ class GeocodeService(
 
         val geocode = Geocode(
             location = geocoder.getDescriptionForNumber(validPhonenumber, Locale.GERMAN),
-            regionCode = phonenumberService.getRegionCode(validPhonenumber)
+            regionCode = phonenumberService.getRegionCode(validPhonenumber),
+            type = phonenumberService.getNumberType(validPhonenumber),
         )
 
         logger.debug { "Geocoded '$phonenumber': '$geocode'" }
@@ -40,5 +42,9 @@ class GeocodeService(
         return geocode
     }
 
-    data class Geocode(val location: String, val regionCode: String)
+    data class Geocode(
+        val location: String,
+        val regionCode: String,
+        val type: PhoneNumberUtil.PhoneNumberType,
+    )
 }

@@ -42,6 +42,7 @@ class InformationControllerTests {
         Assertions.assertThat(informationResponse.location).isEqualTo(testData.expectedLocation)
         Assertions.assertThat(informationResponse.regionCode).isEqualTo(testData.expectedRegionCode)
         Assertions.assertThat(informationResponse.formattedPhonenumber).isEqualTo(testData.expectedFormat)
+        Assertions.assertThat(informationResponse.type).isEqualTo(testData.expectedType)
     }
 
     @ParameterizedTest

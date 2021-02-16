@@ -1,16 +1,52 @@
 package de.debuglevel.phonenumber.geocode
 
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.util.stream.Stream
 
 object TestDataProvider {
     fun validPhonenumberProvider() = Stream.of(
-        PhonenumberTestData(value = "(09 51) 1234567", expectedLocation = "Bamberg", expectedRegionCode = "DE"),
-        PhonenumberTestData(value = "0721 1234567", expectedLocation = "Karlsruhe", expectedRegionCode = "DE"),
-        PhonenumberTestData(value = "+4974251234567", expectedLocation = "Trossingen", expectedRegionCode = "DE"),
-        PhonenumberTestData(value = "+49301234567", expectedLocation = "Berlin", expectedRegionCode = "DE"),
-        PhonenumberTestData(value = "+43 1 534899", expectedLocation = "Wien", expectedRegionCode = "AT"),
-        PhonenumberTestData(value = "+41 441 234567", expectedLocation = "Zürich", expectedRegionCode = "CH"),
-        PhonenumberTestData(value = "+49 176 1234567", expectedLocation = "Deutschland", expectedRegionCode = "DE")
+        PhonenumberTestData(
+            value = "(09 51) 1234567",
+            expectedLocation = "Bamberg",
+            expectedRegionCode = "DE",
+            expectedType = PhoneNumberUtil.PhoneNumberType.FIXED_LINE.name
+        ),
+        PhonenumberTestData(
+            value = "0721 1234567",
+            expectedLocation = "Karlsruhe",
+            expectedRegionCode = "DE",
+            expectedType = PhoneNumberUtil.PhoneNumberType.FIXED_LINE.name
+        ),
+        PhonenumberTestData(
+            value = "+4974251234567",
+            expectedLocation = "Trossingen",
+            expectedRegionCode = "DE",
+            expectedType = PhoneNumberUtil.PhoneNumberType.FIXED_LINE.name
+        ),
+        PhonenumberTestData(
+            value = "+49301234567",
+            expectedLocation = "Berlin",
+            expectedRegionCode = "DE",
+            expectedType = PhoneNumberUtil.PhoneNumberType.FIXED_LINE.name
+        ),
+        PhonenumberTestData(
+            value = "+43 1 534899",
+            expectedLocation = "Wien",
+            expectedRegionCode = "AT",
+            expectedType = PhoneNumberUtil.PhoneNumberType.FIXED_LINE.name
+        ),
+        PhonenumberTestData(
+            value = "+41 441 234567",
+            expectedLocation = "Zürich",
+            expectedRegionCode = "CH",
+            expectedType = PhoneNumberUtil.PhoneNumberType.FIXED_LINE.name
+        ),
+        PhonenumberTestData(
+            value = "+49 176 1234567",
+            expectedLocation = "Deutschland",
+            expectedRegionCode = "DE",
+            expectedType = PhoneNumberUtil.PhoneNumberType.MOBILE.name
+        )
     )
 
     fun invalidPhonenumberProvider() = Stream.of(
@@ -35,6 +71,7 @@ object TestDataProvider {
     data class PhonenumberTestData(
         val value: String,
         val expectedLocation: String? = null,
-        val expectedRegionCode: String? = null
+        val expectedRegionCode: String? = null,
+        val expectedType: String? = null,
     )
 }

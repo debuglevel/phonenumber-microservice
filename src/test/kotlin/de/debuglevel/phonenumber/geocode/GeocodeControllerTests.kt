@@ -41,6 +41,7 @@ class GeocodeControllerTests {
         // Assert
         Assertions.assertThat(geocodeResponse.location).isEqualTo(testData.expectedLocation)
         Assertions.assertThat(geocodeResponse.regionCode).isEqualTo(testData.expectedRegionCode)
+        Assertions.assertThat(geocodeResponse.type).isEqualTo(testData.expectedType)
     }
 
     @ParameterizedTest

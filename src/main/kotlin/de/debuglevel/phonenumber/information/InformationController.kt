@@ -44,6 +44,7 @@ class InformationController(
             formattedPhonenumber = formattedPhonenumber.formattedPhonenumber,
             location = geocode.location,
             regionCode = geocode.regionCode,
+            type = geocode.type.name,
         )
 
         return HttpResponse.ok(formatResponse)
