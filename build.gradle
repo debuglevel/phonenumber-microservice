@@ -146,9 +146,6 @@ dependencies {
     kapt "io.micronaut.configuration:micronaut-openapi"
     implementation "io.swagger.core.v3:swagger-annotations"
 
-    // libphonenumber
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.10.17'
-    implementation 'com.googlecode.libphonenumber:geocoder:2.123'
     // Micronaut Views
     //implementation "io.micronaut.views:micronaut-views-thymeleaf"
     //implementation "io.micronaut.views:micronaut-views-handlebars"
@@ -156,6 +153,10 @@ dependencies {
     //implementation "io.micronaut.views:micronaut-views-freemarker"
     //implementation "io.micronaut.views:micronaut-views-rocker"
     //implementation "io.micronaut.views:micronaut-views-soy"
+
+    // libphonenumber
+    implementation "com.googlecode.libphonenumber:libphonenumber:$libphonenumberVersion"
+    implementation "com.googlecode.libphonenumber:geocoder:$geocoderVersion"
 }
 
 // Java configuration
